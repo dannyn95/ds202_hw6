@@ -1,0 +1,54 @@
+---
+title: "hw6"
+author: "Danny Nguyen"
+date: "April 24, 2019"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(readxl)
+library(readxl)
+#I had originally downloaded the data as an excel file and then imported the dataset along with modifying it before fully importing the dataset. The code below was the finalized code after converting variable types for multiple columns in the code preview before I had imported the dataset.
+dogtest <- read_excel("C:/Users/Danny Nguyen/ds202_hw6/KIB - Best in Show (public).xlsx", 
+    sheet = "Best in show full sheet", col_types = c("text", 
+        "numeric", "text", "numeric", "numeric", 
+        "numeric", "numeric", "text", "text", 
+        "numeric", "numeric", "numeric", 
+        "text", "text", "text", "text", "text", 
+        "text", "numeric", "text", "text", 
+        "text", "text", "text", "numeric", 
+        "text", "numeric", "numeric", "numeric", 
+        "text", "numeric", "text", "text", 
+        "text", "text", "text", "numeric", 
+        "text", "text", "text", "text", "text", 
+        "text", "text", "text", "text", "text", 
+        "text", "numeric", "text", "text", 
+        "text", "text", "text", "text", "text", 
+        "text", "text", "text", "numeric", 
+        "text", "numeric", "text", "text", 
+        "numeric", "text", "numeric", "numeric", 
+        "numeric", "numeric", "text", "text", 
+        "text", "text", "text"), skip = 2)
+
+```
+
+```{r}
+dogbreed <- dogtest$'Sources - see bottom right'
+dogtype <- dogtest$'category'
+dogsize <- dogtest$'size category'
+dogscore <- dogtest$'ULTIMATE TOP DOG MEGA SCORE'
+Popularity <- dogtest$'POPULARITY IN US..6'
+Intelligence <- dogtest$'intelligence category' #continuous issues with condensing intelligence into 'dumb' and 'clever' categories.
+
+#original plot to categorize shape by intelligence and size by dogsize.
+#ggplot(dogtest, aes(dogscore, Popularity, shape = factor(Intelligence), size = fct_rev(dogsize), color = category)) +   geom_point(alpha = 0.75) + geom_vline(xintercept = 2.45) + geom_hline(yintercept = 87) + scale_x_continuous(limits = c(0.95, 3.80)) + ylim(175, -5)
+
+#new plot using dogsize as shape and intelligence as size. Despite some errors with display, the graphic results are better than original plot.
+ggplot(dogtest, aes(dogscore, Popularity, shape = fct_rev(dogsize), size = 'intelligence category', color = category)) + geom_point(alpha = 0.75) + geom_vline(xintercept = 2.45) + geom_hline(yintercept = 87) + scale_x_continuous(limits = c(0.95, 3.80)) + ylim(175, -5)
+
+```
+
